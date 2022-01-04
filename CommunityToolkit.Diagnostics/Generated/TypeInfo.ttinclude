@@ -1,4 +1,5 @@
 <#@ template language="C#"#>
+<#@ parameter type="System.Boolean" name="IsNet35" #>
 <#@ assembly name="System.Core" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".g.cs"#>
@@ -17,7 +18,8 @@
             string name,
             string size,
             string destinationType,
-            string cast)
+            string cast,
+            bool requiresModernDotNet)
         {
             Type = type;
             XmlType = xmlType;
@@ -25,6 +27,7 @@
             Size = size;
             DestinationType = destinationType;
             Cast = cast;
+            RequiresModernDotNet = requiresModernDotNet;
         }
 
         /// <summary>
@@ -61,6 +64,11 @@
         /// Gets the (optional) casting to resolve the diamond problem between different interfaces
         /// </summary>
         public string Cast { get; }
+
+        /// <summary>
+        /// Gets whether this item requires a modern version of .NET (i.e. .NET Standard 2.0+)
+        /// </summary>
+        public bool RequiresModernDotNet { get; }
     }
 
     /// <summary>
@@ -68,14 +76,14 @@
     /// </summary>
     static readonly IReadOnlyList<EnumerableTypeInfo> EnumerableTypes = new[]
     {
-        new EnumerableTypeInfo("Span<T>", "<see cref=\"Span{T}\"/>", "span", "Length", "Span<T>", ""),
-        new EnumerableTypeInfo("ReadOnlySpan<T>", "<see cref=\"ReadOnlySpan{T}\"/>", "span", "Length", "Span<T>", ""),
-        new EnumerableTypeInfo("Memory<T>", "<see cref=\"Memory{T}\"/>", "memory", "Length", "Memory<T>", ""),
-        new EnumerableTypeInfo("ReadOnlyMemory<T>", "<see cref=\"ReadOnlyMemory{T}\"/>", "memory", "Length", "Memory<T>", ""),
-        new EnumerableTypeInfo("T[]", "<see typeparamref=\"T\"/> array", "array", "Length", "T[]", ""),
-        new EnumerableTypeInfo("List<T>", "<see cref=\"List{T}\"/>", "list", "Count", "List<T>", "(ICollection<T>)"),
-        new EnumerableTypeInfo("ICollection<T>", "<see cref=\"ICollection{T}\"/>", "collection", "Count", "ICollection<T>", ""),
-        new EnumerableTypeInfo("IReadOnlyCollection<T>", "<see cref=\"IReadOnlyCollection{T}\"/>", "collection", "Count", "ICollection<T>", ""),
+        new EnumerableTypeInfo("Span<T>", "<see cref=\"Span{T}\"/>", "span", "Length", "Span<T>", "", true),
+        new EnumerableTypeInfo("ReadOnlySpan<T>", "<see cref=\"ReadOnlySpan{T}\"/>", "span", "Length", "Span<T>", "", true),
+        new EnumerableTypeInfo("Memory<T>", "<see cref=\"Memory{T}\"/>", "memory", "Length", "Memory<T>", "", true),
+        new EnumerableTypeInfo("ReadOnlyMemory<T>", "<see cref=\"ReadOnlyMemory{T}\"/>", "memory", "Length", "Memory<T>", "", true),
+        new EnumerableTypeInfo("IReadOnlyCollection<T>", "<see cref=\"IReadOnlyCollection{T}\"/>", "collection", "Count", "ICollection<T>", "", true),
+        new EnumerableTypeInfo("T[]", "<see typeparamref=\"T\"/> array", "array", "Length", "T[]", "", false),
+        new EnumerableTypeInfo("List<T>", "<see cref=\"List{T}\"/>", "list", "Count", "List<T>", "(ICollection<T>)", false),
+        new EnumerableTypeInfo("ICollection<T>", "<see cref=\"ICollection{T}\"/>", "collection", "Count", "ICollection<T>", "", false),
     };
 
     /// <summary>
@@ -109,8 +117,11 @@
             // Insert a blank line after the first item
             if (i > 0) WriteLine("");
 
+            // Get current item
+            var item = items [i];
+
             // Invoke the factory with the current item
-            factory(items [i]);
+            factory(item);
         }
     }
 #>

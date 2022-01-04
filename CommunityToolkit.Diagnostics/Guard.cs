@@ -22,7 +22,9 @@ public static partial class Guard
     /// <param name="value">The input value to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is not <see langword="null"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsNull<T>(T? value, [CallerArgumentExpression("value")] string name = "")
         where T : class
     {
@@ -42,7 +44,9 @@ public static partial class Guard
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is not <see langword="null"/>.</exception>
     /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsNull<T>(T? value, [CallerArgumentExpression("value")] string name = "")
         where T : struct
     {
@@ -61,7 +65,9 @@ public static partial class Guard
     /// <param name="value">The input value to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is <see langword="null"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsNotNull<T>([NotNull] T? value, [CallerArgumentExpression("value")] string name = "")
         where T : class
     {
@@ -81,7 +87,9 @@ public static partial class Guard
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is <see langword="null"/>.</exception>
     /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsNotNull<T>([NotNull] T? value, [CallerArgumentExpression("value")] string name = "")
         where T : struct
     {
@@ -100,7 +108,9 @@ public static partial class Guard
     /// <param name="value">The input <see cref="object"/> to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is not of type <typeparamref name="T"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsOfType<T>(object value, [CallerArgumentExpression("value")] string name = "")
     {
         if (value.GetType() == typeof(T))
@@ -118,7 +128,9 @@ public static partial class Guard
     /// <param name="value">The input <see cref="object"/> to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is of type <typeparamref name="T"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsNotOfType<T>(object value, [CallerArgumentExpression("value")] string name = "")
     {
         if (value.GetType() != typeof(T))
@@ -136,7 +148,9 @@ public static partial class Guard
     /// <param name="type">The type to look for.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if the type of <paramref name="value"/> is not the same as <paramref name="type"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsOfType(object value, Type type, [CallerArgumentExpression("value")] string name = "")
     {
         if (value.GetType() == type)
@@ -154,7 +168,9 @@ public static partial class Guard
     /// <param name="type">The type to look for.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if the type of <paramref name="value"/> is the same as <paramref name="type"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsNotOfType(object value, Type type, [CallerArgumentExpression("value")] string name = "")
     {
         if (value.GetType() != type)
@@ -172,7 +188,9 @@ public static partial class Guard
     /// <param name="value">The input <see cref="object"/> to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> can't be assigned to type <typeparamref name="T"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsAssignableToType<T>(object value, [CallerArgumentExpression("value")] string name = "")
     {
         if (value is T)
@@ -190,7 +208,9 @@ public static partial class Guard
     /// <param name="value">The input <see cref="object"/> to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> can be assigned to type <typeparamref name="T"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsNotAssignableToType<T>(object value, [CallerArgumentExpression("value")] string name = "")
     {
         if (value is not T)
@@ -208,7 +228,9 @@ public static partial class Guard
     /// <param name="type">The type to look for.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> can't be assigned to <paramref name="type"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsAssignableToType(object value, Type type, [CallerArgumentExpression("value")] string name = "")
     {
         if (type.IsInstanceOfType(value))
@@ -226,7 +248,9 @@ public static partial class Guard
     /// <param name="type">The type to look for.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> can be assigned to <paramref name="type"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsNotAssignableToType(object value, Type type, [CallerArgumentExpression("value")] string name = "")
     {
         if (!type.IsInstanceOfType(value))
@@ -246,7 +270,9 @@ public static partial class Guard
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is not the same instance as <paramref name="target"/>.</exception>
     /// <remarks>The method is generic to prevent using it with value types.</remarks>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsReferenceEqualTo<T>(T value, T target, [CallerArgumentExpression("value")] string name = "")
         where T : class
     {
@@ -267,7 +293,9 @@ public static partial class Guard
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is the same instance as <paramref name="target"/>.</exception>
     /// <remarks>The method is generic to prevent using it with value types.</remarks>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsReferenceNotEqualTo<T>(T value, T target, [CallerArgumentExpression("value")] string name = "")
         where T : class
     {

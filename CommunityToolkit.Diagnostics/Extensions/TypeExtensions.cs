@@ -5,7 +5,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
+
+#if NET35
+using CommunityToolkit.Common;
+
+using TypeMap = System.Collections.Generic.Dictionary<System.Type, string>;
+using TypeArgs = System.Collections.Generic.IList<System.Type>;
+using DisplayNameTable = System.Collections.Generic.Dictionary<System.Type, string>;
+#else
+using TypeMap = System.Collections.Generic.IReadOnlyDictionary<System.Type, string>;
+using TypeArgs = System.ReadOnlySpan<System.Type>;
+using DisplayNameTable = System.Runtime.CompilerServices.ConditionalWeakTable<System.Type, string>;
+#endif
 
 namespace CommunityToolkit.Diagnostics;
 
@@ -17,7 +28,7 @@ public static class TypeExtensions
     /// <summary>
     /// The mapping of built-in types to their simple representation.
     /// </summary>
-    private static readonly IReadOnlyDictionary<Type, string> BuiltInTypesMap = new Dictionary<Type, string>
+    private static readonly TypeMap BuiltInTypesMap = new Dictionary<Type, string>
     {
         [typeof(bool)] = "bool",
         [typeof(byte)] = "byte",
@@ -40,7 +51,7 @@ public static class TypeExtensions
     /// <summary>
     /// A thread-safe mapping of precomputed string representation of types.
     /// </summary>
-    private static readonly ConditionalWeakTable<Type, string> DisplayNames = new();
+    private static readonly DisplayNameTable DisplayNames = new();
 
     /// <summary>
     /// Returns a simple string representation of a type.
@@ -50,7 +61,7 @@ public static class TypeExtensions
     public static string ToTypeString(this Type type)
     {
         // Local function to create the formatted string for a given type
-        static string FormatDisplayString(Type type, int genericTypeOffset, ReadOnlySpan<Type> typeArguments)
+        static string FormatDisplayString(Type type, int genericTypeOffset, TypeArgs typeArguments)
         {
             // Primitive types use the keyword name
             if (BuiltInTypesMap.TryGetValue(type, out string? typeName))
@@ -96,8 +107,14 @@ public static class TypeExtensions
                     genericTypeDefinition == typeof(ValueTuple<,,,,,,,>))
                 {
                     IEnumerable<string>? formattedTypes = type.GetGenericArguments().Select(t => FormatDisplayString(t, 0, t.GetGenericArguments()));
+                    string formattedTypesString =
+#if !NET35
+                        string.Join(", ", formattedTypes);
+#else
+                        ", ".Join(formattedTypes);
+#endif
 
-                    return $"({string.Join(", ", formattedTypes)})";
+                    return $"({formattedTypesString})";
                 }
             }
 
@@ -109,12 +126,23 @@ public static class TypeExtensions
                 // Retrieve the current generic arguments for the current type (leaf or not)
                 string[]? tokens = type.Name.Split('`');
                 int genericArgumentsCount = int.Parse(tokens[1]);
-                int typeArgumentsOffset = typeArguments.Length - genericTypeOffset - genericArgumentsCount;
+                int typeArgumentsCount =
+#if !NET35
+                    typeArguments.Length;
+#else
+                    typeArguments.Count;
+#endif
+                int typeArgumentsOffset = typeArgumentsCount - genericTypeOffset - genericArgumentsCount;
                 Type[]? currentTypeArguments = typeArguments.Slice(typeArgumentsOffset, genericArgumentsCount).ToArray();
                 IEnumerable<string>? formattedTypes = currentTypeArguments.Select(t => FormatDisplayString(t, 0, t.GetGenericArguments()));
-
+                string formattedTypesString =
+#if !NET35
+                        string.Join(", ", formattedTypes);
+#else
+                        ", ".Join(formattedTypes);
+#endif
                 // Standard generic types are displayed as Foo<T>
-                displayName = $"{tokens[0]}<{string.Join(", ", formattedTypes)}>";
+                displayName = $"{tokens[0]}<{formattedTypesString}>";
 
                 // Track the current offset for the shared generic arguments list
                 genericTypeOffset += genericArgumentsCount;

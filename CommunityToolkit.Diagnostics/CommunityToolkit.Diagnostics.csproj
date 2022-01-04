@@ -1,15 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net6.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net6.0;net35</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup>
     <Title>.NET Community Toolkit - Diagnostics</Title>
     <Description>
       This package includes .NET helpers such as:
-        - Guard: Helper methods to verify conditions when running code.
-        - ThrowHelper: Helper methods to efficiently throw exceptions.
+      - Guard: Helper methods to verify conditions when running code.
+      - ThrowHelper: Helper methods to efficiently throw exceptions.
     </Description>
     <PackageTags>Diagnostics;Guard;ThrowHelper;TypeInfo;Extensions;Helpers</PackageTags>
   </PropertyGroup>
@@ -41,6 +40,18 @@
         <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
         <IsTrimmable>true</IsTrimmable>
       </PropertyGroup>
+    </When>
+
+    <When Condition="'$(TargetFramework)' == 'net35'">        
+      <ItemGroup>
+        <Reference Include="WindowsBase" />
+
+        <!-- .NET Framework 3.5 does not have async/await -->
+        <PackageReference Include="AsyncBridge" Version="0.3.1" />
+
+        <!-- does not have Tuple or ValueTuple -->
+        <ProjectReference Include="..\CommunityToolkit.Common\CommunityToolkit.Common.csproj" />
+      </ItemGroup>
     </When>
   </Choose>
 
@@ -83,6 +94,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ThrowHelper.Collection.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Generated\TypeInfo.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TypeInfo.ttinclude</DependentUpon>
     </Compile>
     <Compile Update="Generated\TypeInfo.g.cs">
       <DesignTime>True</DesignTime>

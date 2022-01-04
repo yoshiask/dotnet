@@ -701,6 +701,7 @@ public static partial class ThrowHelper
         throw new OperationCanceledException(message, innerException);
     }
 
+#if !NET35
     /// <summary>
     /// Throws a new <see cref="OperationCanceledException"/>.
     /// </summary>
@@ -736,6 +737,7 @@ public static partial class ThrowHelper
     {
         throw new OperationCanceledException(message, innerException, token);
     }
+#endif
 
     /// <summary>
     /// Throws a new <see cref="PlatformNotSupportedException"/>.

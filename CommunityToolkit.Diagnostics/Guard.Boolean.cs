@@ -19,7 +19,9 @@ public static partial class Guard
     /// <param name="value">The input <see cref="bool"/> to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is <see langword="false"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsTrue([DoesNotReturnIf(false)] bool value, [CallerArgumentExpression("value")] string name = "")
     {
         if (value)
@@ -37,7 +39,9 @@ public static partial class Guard
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <param name="message">A message to display if <paramref name="value"/> is <see langword="false"/>.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is <see langword="false"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsTrue([DoesNotReturnIf(false)] bool value, string name, string message)
     {
         if (value)
@@ -54,7 +58,9 @@ public static partial class Guard
     /// <param name="value">The input <see cref="bool"/> to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is <see langword="true"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsFalse([DoesNotReturnIf(true)] bool value, [CallerArgumentExpression("value")] string name = "")
     {
         if (!value)
@@ -72,7 +78,9 @@ public static partial class Guard
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <param name="message">A message to display if <paramref name="value"/> is <see langword="true"/>.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is <see langword="true"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsFalse([DoesNotReturnIf(true)] bool value, string name, string message)
     {
         if (!value)
@@ -91,7 +99,9 @@ public static partial class Guard
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <param name="message">A message to display if <paramref name="value"/> is <see langword="false"/>.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is <see langword="false"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsTrue([DoesNotReturnIf(false)] bool value, string name, [InterpolatedStringHandlerArgument("value")] ref IsTrueInterpolatedStringHandler message)
     {
         if (value)
@@ -109,7 +119,9 @@ public static partial class Guard
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <param name="message">A message to display if <paramref name="value"/> is <see langword="true"/>.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is <see langword="true"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsFalse([DoesNotReturnIf(true)] bool value, string name, [InterpolatedStringHandlerArgument("value")] ref IsFalseInterpolatedStringHandler message)
     {
         if (!value)

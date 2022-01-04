@@ -16,7 +16,13 @@ public static class ValueTypeExtensions
     /// <summary>
     /// Gets the table of hex characters (doesn't allocate, maps to .text section, see <see href="https://github.com/dotnet/roslyn/pull/24621"/>).
     /// </summary>
-    private static ReadOnlySpan<byte> HexCharactersTable => new[]
+    private static
+#if !NET35
+        ReadOnlySpan<byte>
+#else
+        byte[]
+#endif
+        HexCharactersTable => new[]
     {
         (byte)'0', (byte)'1', (byte)'2', (byte)'3',
         (byte)'4', (byte)'5', (byte)'6', (byte)'7',
@@ -41,17 +47,20 @@ public static class ValueTypeExtensions
     /// Console.WriteLine((-1).ToHexString()); // "0xFFFFFFFF"
     /// </code>
     /// </remarks>
-    public static unsafe string ToHexString<T>(this T value)
-        where T : unmanaged
+    public static unsafe string ToHexString<T>(this T value) where T : unmanaged
     {
-        int sizeOfT = Unsafe.SizeOf<T>();
+        int sizeOfT = sizeof(T);
         int bufferSize = (2 * sizeOfT) + 2;
         char* p = stackalloc char[bufferSize];
 
         p[0] = '0';
         p[1] = 'x';
 
+#if !NET35
         ref byte rh = ref MemoryMarshal.GetReference(HexCharactersTable);
+#else
+        byte[] rh = HexCharactersTable;
+#endif
 
         for (int i = 0, j = bufferSize - 2; i < sizeOfT; i++, j -= 2)
         {
@@ -59,8 +68,13 @@ public static class ValueTypeExtensions
             int low = b & 0x0F;
             int high = (b & 0xF0) >> 4;
 
+#if !NET35
             p[j + 1] = (char)Unsafe.Add(ref rh, low);
             p[j] = (char)Unsafe.Add(ref rh, high);
+#else
+            p[j + 1] = (char)rh[low];
+            p[j] = (char)rh[high];
+#endif
         }
 
         return new(p, 0, bufferSize);

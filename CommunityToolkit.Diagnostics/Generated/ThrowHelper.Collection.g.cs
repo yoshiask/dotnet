@@ -17,6 +17,7 @@ partial class Guard
     /// <inheritdoc/>
     partial class ThrowHelper
     {
+#if !NET35
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsEmpty{T}(T[],string)"/> (or an overload) fails.
         /// </summary>
@@ -115,7 +116,9 @@ partial class Guard
         {
             throw new ArgumentOutOfRangeException(name, index, $"Parameter {AssertString(name)} (int) must not be in the range given by <0> and {AssertString(span.Length)} to be an invalid index for the target collection ({typeof(Span<T>).ToTypeString()}), was {AssertString(index)}.");
         }
+#endif
 
+#if !NET35
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsEmpty{T}(T[],string)"/> (or an overload) fails.
         /// </summary>
@@ -214,7 +217,9 @@ partial class Guard
         {
             throw new ArgumentOutOfRangeException(name, index, $"Parameter {AssertString(name)} (int) must not be in the range given by <0> and {AssertString(span.Length)} to be an invalid index for the target collection ({typeof(ReadOnlySpan<T>).ToTypeString()}), was {AssertString(index)}.");
         }
+#endif
 
+#if !NET35
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsEmpty{T}(T[],string)"/> (or an overload) fails.
         /// </summary>
@@ -313,7 +318,9 @@ partial class Guard
         {
             throw new ArgumentOutOfRangeException(name, index, $"Parameter {AssertString(name)} (int) must not be in the range given by <0> and {AssertString(memory.Length)} to be an invalid index for the target collection ({typeof(Memory<T>).ToTypeString()}), was {AssertString(index)}.");
         }
+#endif
 
+#if !NET35
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsEmpty{T}(T[],string)"/> (or an overload) fails.
         /// </summary>
@@ -412,6 +419,108 @@ partial class Guard
         {
             throw new ArgumentOutOfRangeException(name, index, $"Parameter {AssertString(name)} (int) must not be in the range given by <0> and {AssertString(memory.Length)} to be an invalid index for the target collection ({typeof(ReadOnlyMemory<T>).ToTypeString()}), was {AssertString(index)}.");
         }
+#endif
+
+#if !NET35
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsEmpty{T}(T[],string)"/> (or an overload) fails.
+        /// </summary>
+        [DoesNotReturn]
+        public static void ThrowArgumentExceptionForIsEmpty<T>(IReadOnlyCollection<T> collection, string name)
+        {
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(IReadOnlyCollection<T>).ToTypeString()}) must be empty, had a size of {AssertString(collection.Count)}.", name);
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeEqualTo{T}(T[],int,string)"/> (or an overload) fails.
+        /// </summary>
+        [DoesNotReturn]
+        public static void ThrowArgumentExceptionForHasSizeEqualTo<T>(IReadOnlyCollection<T> collection, int size, string name)
+        {
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(IReadOnlyCollection<T>).ToTypeString()}) must have a size equal to {size}, had a size of {AssertString(collection.Count)}.", name);
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeNotEqualTo{T}(T[],int,string)"/> (or an overload) fails.
+        /// </summary>
+        [DoesNotReturn]
+        public static void ThrowArgumentExceptionForHasSizeNotEqualTo<T>(IReadOnlyCollection<T> collection, int size, string name)
+        {
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(IReadOnlyCollection<T>).ToTypeString()}) must have a size not equal to {size}, had a size of {AssertString(collection.Count)}.", name);
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThan{T}(T[],int,string)"/> (or an overload) fails.
+        /// </summary>
+        [DoesNotReturn]
+        public static void ThrowArgumentExceptionForHasSizeGreaterThan<T>(IReadOnlyCollection<T> collection, int size, string name)
+        {
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(IReadOnlyCollection<T>).ToTypeString()}) must have a size over {size}, had a size of {AssertString(collection.Count)}.", name);
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThanOrEqualTo{T}(T[],int,string)"/> (or an overload) fails.
+        /// </summary>
+        [DoesNotReturn]
+        public static void ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo<T>(IReadOnlyCollection<T> collection, int size, string name)
+        {
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(IReadOnlyCollection<T>).ToTypeString()}) must have a size of at least {size}, had a size of {AssertString(collection.Count)}.", name);
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeLessThan{T}(T[],int,string)"/> (or an overload) fails.
+        /// </summary>
+        [DoesNotReturn]
+        public static void ThrowArgumentExceptionForHasSizeLessThan<T>(IReadOnlyCollection<T> collection, int size, string name)
+        {
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(IReadOnlyCollection<T>).ToTypeString()}) must have a size less than {size}, had a size of {AssertString(collection.Count)}.", name);
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeLessThanOrEqualTo{T}(T[],int,string)"/> (or an overload) fails.
+        /// </summary>
+        [DoesNotReturn]
+        public static void ThrowArgumentExceptionForHasSizeLessThanOrEqualTo<T>(IReadOnlyCollection<T> collection, int size, string name)
+        {
+            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(IReadOnlyCollection<T>).ToTypeString()}) must have a size less than or equal to {size}, had a size of {AssertString(collection.Count)}.", name);
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeEqualTo{T}(T[],T[],string)"/> (or an overload) fails.
+        /// </summary>
+        [DoesNotReturn]
+        public static void ThrowArgumentExceptionForHasSizeEqualTo<T>(IReadOnlyCollection<T> source, ICollection<T> destination, string name)
+        {
+            throw new ArgumentException($"The source {AssertString(name)} ({typeof(IReadOnlyCollection<T>).ToTypeString()}) must have a size equal to {AssertString(destination.Count)} (the destination), had a size of {AssertString(source.Count)}.", name);
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeLessThanOrEqualTo{T}(T[],T[],string)"/> (or an overload) fails.
+        /// </summary>
+        [DoesNotReturn]
+        public static void ThrowArgumentExceptionForHasSizeLessThanOrEqualTo<T>(IReadOnlyCollection<T> source, ICollection<T> destination, string name)
+        {
+            throw new ArgumentException($"The source {AssertString(name)} ({typeof(IReadOnlyCollection<T>).ToTypeString()}) must have a size less than or equal to {AssertString(destination.Count)} (the destination), had a size of {AssertString(source.Count)}.", name);
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when <see cref="Guard.IsInRangeFor{T}(int,T[],string)"/> (or an overload) fails.
+        /// </summary>
+        [DoesNotReturn]
+        public static void ThrowArgumentOutOfRangeExceptionForIsInRangeFor<T>(int index, IReadOnlyCollection<T> collection, string name)
+        {
+            throw new ArgumentOutOfRangeException(name, index, $"Parameter {AssertString(name)} (int) must be in the range given by <0> and {AssertString(collection.Count)} to be a valid index for the target collection ({typeof(IReadOnlyCollection<T>).ToTypeString()}), was {AssertString(index)}.");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when <see cref="Guard.IsNotInRangeFor{T}(int,T[],string)"/> (or an overload) fails.
+        /// </summary>
+        [DoesNotReturn]
+        public static void ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor<T>(int index, IReadOnlyCollection<T> collection, string name)
+        {
+            throw new ArgumentOutOfRangeException(name, index, $"Parameter {AssertString(name)} (int) must not be in the range given by <0> and {AssertString(collection.Count)} to be an invalid index for the target collection ({typeof(IReadOnlyCollection<T>).ToTypeString()}), was {AssertString(index)}.");
+        }
+#endif
 
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsEmpty{T}(T[],string)"/> (or an overload) fails.
@@ -708,105 +817,6 @@ partial class Guard
         public static void ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor<T>(int index, ICollection<T> collection, string name)
         {
             throw new ArgumentOutOfRangeException(name, index, $"Parameter {AssertString(name)} (int) must not be in the range given by <0> and {AssertString(collection.Count)} to be an invalid index for the target collection ({typeof(ICollection<T>).ToTypeString()}), was {AssertString(index)}.");
-        }
-
-        /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsEmpty{T}(T[],string)"/> (or an overload) fails.
-        /// </summary>
-        [DoesNotReturn]
-        public static void ThrowArgumentExceptionForIsEmpty<T>(IReadOnlyCollection<T> collection, string name)
-        {
-            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(IReadOnlyCollection<T>).ToTypeString()}) must be empty, had a size of {AssertString(collection.Count)}.", name);
-        }
-
-        /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeEqualTo{T}(T[],int,string)"/> (or an overload) fails.
-        /// </summary>
-        [DoesNotReturn]
-        public static void ThrowArgumentExceptionForHasSizeEqualTo<T>(IReadOnlyCollection<T> collection, int size, string name)
-        {
-            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(IReadOnlyCollection<T>).ToTypeString()}) must have a size equal to {size}, had a size of {AssertString(collection.Count)}.", name);
-        }
-
-        /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeNotEqualTo{T}(T[],int,string)"/> (or an overload) fails.
-        /// </summary>
-        [DoesNotReturn]
-        public static void ThrowArgumentExceptionForHasSizeNotEqualTo<T>(IReadOnlyCollection<T> collection, int size, string name)
-        {
-            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(IReadOnlyCollection<T>).ToTypeString()}) must have a size not equal to {size}, had a size of {AssertString(collection.Count)}.", name);
-        }
-
-        /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThan{T}(T[],int,string)"/> (or an overload) fails.
-        /// </summary>
-        [DoesNotReturn]
-        public static void ThrowArgumentExceptionForHasSizeGreaterThan<T>(IReadOnlyCollection<T> collection, int size, string name)
-        {
-            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(IReadOnlyCollection<T>).ToTypeString()}) must have a size over {size}, had a size of {AssertString(collection.Count)}.", name);
-        }
-
-        /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeGreaterThanOrEqualTo{T}(T[],int,string)"/> (or an overload) fails.
-        /// </summary>
-        [DoesNotReturn]
-        public static void ThrowArgumentExceptionForHasSizeGreaterThanOrEqualTo<T>(IReadOnlyCollection<T> collection, int size, string name)
-        {
-            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(IReadOnlyCollection<T>).ToTypeString()}) must have a size of at least {size}, had a size of {AssertString(collection.Count)}.", name);
-        }
-
-        /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeLessThan{T}(T[],int,string)"/> (or an overload) fails.
-        /// </summary>
-        [DoesNotReturn]
-        public static void ThrowArgumentExceptionForHasSizeLessThan<T>(IReadOnlyCollection<T> collection, int size, string name)
-        {
-            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(IReadOnlyCollection<T>).ToTypeString()}) must have a size less than {size}, had a size of {AssertString(collection.Count)}.", name);
-        }
-
-        /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeLessThanOrEqualTo{T}(T[],int,string)"/> (or an overload) fails.
-        /// </summary>
-        [DoesNotReturn]
-        public static void ThrowArgumentExceptionForHasSizeLessThanOrEqualTo<T>(IReadOnlyCollection<T> collection, int size, string name)
-        {
-            throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(IReadOnlyCollection<T>).ToTypeString()}) must have a size less than or equal to {size}, had a size of {AssertString(collection.Count)}.", name);
-        }
-
-        /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeEqualTo{T}(T[],T[],string)"/> (or an overload) fails.
-        /// </summary>
-        [DoesNotReturn]
-        public static void ThrowArgumentExceptionForHasSizeEqualTo<T>(IReadOnlyCollection<T> source, ICollection<T> destination, string name)
-        {
-            throw new ArgumentException($"The source {AssertString(name)} ({typeof(IReadOnlyCollection<T>).ToTypeString()}) must have a size equal to {AssertString(destination.Count)} (the destination), had a size of {AssertString(source.Count)}.", name);
-        }
-
-        /// <summary>
-        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.HasSizeLessThanOrEqualTo{T}(T[],T[],string)"/> (or an overload) fails.
-        /// </summary>
-        [DoesNotReturn]
-        public static void ThrowArgumentExceptionForHasSizeLessThanOrEqualTo<T>(IReadOnlyCollection<T> source, ICollection<T> destination, string name)
-        {
-            throw new ArgumentException($"The source {AssertString(name)} ({typeof(IReadOnlyCollection<T>).ToTypeString()}) must have a size less than or equal to {AssertString(destination.Count)} (the destination), had a size of {AssertString(source.Count)}.", name);
-        }
-
-        /// <summary>
-        /// Throws an <see cref="ArgumentOutOfRangeException"/> when <see cref="Guard.IsInRangeFor{T}(int,T[],string)"/> (or an overload) fails.
-        /// </summary>
-        [DoesNotReturn]
-        public static void ThrowArgumentOutOfRangeExceptionForIsInRangeFor<T>(int index, IReadOnlyCollection<T> collection, string name)
-        {
-            throw new ArgumentOutOfRangeException(name, index, $"Parameter {AssertString(name)} (int) must be in the range given by <0> and {AssertString(collection.Count)} to be a valid index for the target collection ({typeof(IReadOnlyCollection<T>).ToTypeString()}), was {AssertString(index)}.");
-        }
-
-        /// <summary>
-        /// Throws an <see cref="ArgumentOutOfRangeException"/> when <see cref="Guard.IsNotInRangeFor{T}(int,T[],string)"/> (or an overload) fails.
-        /// </summary>
-        [DoesNotReturn]
-        public static void ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor<T>(int index, IReadOnlyCollection<T> collection, string name)
-        {
-            throw new ArgumentOutOfRangeException(name, index, $"Parameter {AssertString(name)} (int) must not be in the range given by <0> and {AssertString(collection.Count)} to be an invalid index for the target collection ({typeof(IReadOnlyCollection<T>).ToTypeString()}), was {AssertString(index)}.");
         }
     }
 }

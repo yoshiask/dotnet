@@ -6,6 +6,10 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
+#if NET35
+using CommunityToolkit.Common;
+#endif
+
 #pragma warning disable CS8777
 
 namespace CommunityToolkit.Diagnostics;
@@ -19,7 +23,9 @@ partial class Guard
     /// <param name="text">The input <see cref="string"/> instance to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is neither <see langword="null"/> nor empty.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsNullOrEmpty(string? text, [CallerArgumentExpression("text")] string name = "")
     {
         if (string.IsNullOrEmpty(text))
@@ -37,7 +43,9 @@ partial class Guard
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="text"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is empty.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsNotNullOrEmpty([NotNull] string? text, [CallerArgumentExpression("text")] string name = "")
     {
         if (!string.IsNullOrEmpty(text))
@@ -54,10 +62,16 @@ partial class Guard
     /// <param name="text">The input <see cref="string"/> instance to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is neither <see langword="null"/> nor whitespace.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsNullOrWhiteSpace(string? text, [CallerArgumentExpression("text")] string name = "")
     {
+#if !NET35
         if (string.IsNullOrWhiteSpace(text))
+#else
+        if (text!.IsNullOrWhiteSpace())
+#endif
         {
             return;
         }
@@ -71,11 +85,17 @@ partial class Guard
     /// <param name="text">The input <see cref="string"/> instance to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is neither <see langword="null"/> nor whitespace.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     [Obsolete("Use " + nameof(IsNullOrWhiteSpace))]
     public static void IsNullOrWhitespace(string? text, [CallerArgumentExpression("text")] string name = "")
     {
+#if !NET35
         if (string.IsNullOrWhiteSpace(text))
+#else
+        if (text!.IsNullOrWhiteSpace())
+#endif
         {
             return;
         }
@@ -90,10 +110,16 @@ partial class Guard
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="text"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is whitespace.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsNotNullOrWhiteSpace([NotNull] string? text, [CallerArgumentExpression("text")] string name = "")
     {
-        if (!string.IsNullOrWhiteSpace(text))
+#if !NET35
+        if (string.IsNullOrWhiteSpace(text))
+#else
+        if (text!.IsNullOrWhiteSpace())
+#endif
         {
             return;
         }
@@ -107,11 +133,17 @@ partial class Guard
     /// <param name="text">The input <see cref="string"/> instance to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is <see langword="null"/> or whitespace.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     [Obsolete("Use " + nameof(IsNotNullOrWhiteSpace))]
     public static void IsNotNullOrWhitespace([NotNull] string? text, [CallerArgumentExpression("text")] string name = "")
     {
-        if (!string.IsNullOrWhiteSpace(text))
+#if !NET35
+        if (string.IsNullOrWhiteSpace(text))
+#else
+        if (text!.IsNullOrWhiteSpace())
+#endif
         {
             return;
         }
@@ -125,7 +157,9 @@ partial class Guard
     /// <param name="text">The input <see cref="string"/> instance to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is empty.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsEmpty(string text, [CallerArgumentExpression("text")] string name = "")
     {
         if (text.Length == 0)
@@ -142,7 +176,9 @@ partial class Guard
     /// <param name="text">The input <see cref="string"/> instance to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is empty.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsNotEmpty(string text, [CallerArgumentExpression("text")] string name = "")
     {
         if (text.Length != 0)
@@ -159,10 +195,16 @@ partial class Guard
     /// <param name="text">The input <see cref="string"/> instance to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is neither <see langword="null"/> nor whitespace.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsWhiteSpace(string text, [CallerArgumentExpression("text")] string name = "")
     {
+#if !NET35
         if (string.IsNullOrWhiteSpace(text))
+#else
+        if (text!.IsNullOrWhiteSpace())
+#endif
         {
             return;
         }
@@ -176,11 +218,17 @@ partial class Guard
     /// <param name="text">The input <see cref="string"/> instance to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is neither <see langword="null"/> nor whitespace.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     [Obsolete("Use " + nameof(IsWhiteSpace))]
     public static void IsWhitespace(string text, [CallerArgumentExpression("text")] string name = "")
     {
+#if !NET35
         if (string.IsNullOrWhiteSpace(text))
+#else
+        if (text!.IsNullOrWhiteSpace())
+#endif
         {
             return;
         }
@@ -194,10 +242,16 @@ partial class Guard
     /// <param name="text">The input <see cref="string"/> instance to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is <see langword="null"/> or whitespace.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsNotWhiteSpace(string text, [CallerArgumentExpression("text")] string name = "")
     {
-        if (!string.IsNullOrWhiteSpace(text))
+#if !NET35
+        if (string.IsNullOrWhiteSpace(text))
+#else
+        if (text!.IsNullOrWhiteSpace())
+#endif
         {
             return;
         }
@@ -211,11 +265,17 @@ partial class Guard
     /// <param name="text">The input <see cref="string"/> instance to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is <see langword="null"/> or whitespace.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     [Obsolete("Use " + nameof(IsNotWhiteSpace))]
     public static void IsNotWhitespace(string text, [CallerArgumentExpression("text")] string name = "")
     {
-        if (!string.IsNullOrWhiteSpace(text))
+#if !NET35
+        if (string.IsNullOrWhiteSpace(text))
+#else
+        if (text!.IsNullOrWhiteSpace())
+#endif
         {
             return;
         }
@@ -230,7 +290,9 @@ partial class Guard
     /// <param name="size">The target size to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if the size of <paramref name="text"/> is != <paramref name="size"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void HasSizeEqualTo(string text, int size, [CallerArgumentExpression("text")] string name = "")
     {
         if (text.Length == size)
@@ -248,7 +310,9 @@ partial class Guard
     /// <param name="size">The target size to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if the size of <paramref name="text"/> is == <paramref name="size"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void HasSizeNotEqualTo(string text, int size, [CallerArgumentExpression("text")] string name = "")
     {
         if (text.Length != size)
@@ -266,7 +330,9 @@ partial class Guard
     /// <param name="size">The target size to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if the size of <paramref name="text"/> is &lt;= <paramref name="size"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void HasSizeGreaterThan(string text, int size, [CallerArgumentExpression("text")] string name = "")
     {
         if (text.Length > size)
@@ -284,7 +350,9 @@ partial class Guard
     /// <param name="size">The target size to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if the size of <paramref name="text"/> is &lt; <paramref name="size"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void HasSizeGreaterThanOrEqualTo(string text, int size, [CallerArgumentExpression("text")] string name = "")
     {
         if (text.Length >= size)
@@ -302,7 +370,9 @@ partial class Guard
     /// <param name="size">The target size to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if the size of <paramref name="text"/> is >= <paramref name="size"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void HasSizeLessThan(string text, int size, [CallerArgumentExpression("text")] string name = "")
     {
         if (text.Length < size)
@@ -320,7 +390,9 @@ partial class Guard
     /// <param name="size">The target size to test.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if the size of <paramref name="text"/> is > <paramref name="size"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void HasSizeLessThanOrEqualTo(string text, int size, [CallerArgumentExpression("text")] string name = "")
     {
         if (text.Length <= size)
@@ -339,7 +411,9 @@ partial class Guard
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if the size of <paramref name="text"/> is != the one of <paramref name="destination"/>.</exception>
     /// <remarks>The <see cref="string"/> type is immutable, but the name of this API is kept for consistency with the other overloads.</remarks>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void HasSizeEqualTo(string text, string destination, [CallerArgumentExpression("text")] string name = "")
     {
         if (text.Length == destination.Length)
@@ -358,7 +432,9 @@ partial class Guard
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentException">Thrown if the size of <paramref name="text"/> is > the one of <paramref name="destination"/>.</exception>
     /// <remarks>The <see cref="string"/> type is immutable, but the name of this API is kept for consistency with the other overloads.</remarks>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void HasSizeLessThanOrEqualTo(string text, string destination, [CallerArgumentExpression("text")] string name = "")
     {
         if (text.Length <= destination.Length)
@@ -376,7 +452,9 @@ partial class Guard
     /// <param name="text">The input <see cref="string"/> instance to use to validate <paramref name="index"/>.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="index"/> is not valid to access <paramref name="text"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsInRangeFor(int index, string text, [CallerArgumentExpression("index")] string name = "")
     {
         if ((uint)index < (uint)text.Length)
@@ -394,7 +472,9 @@ partial class Guard
     /// <param name="text">The input <see cref="string"/> instance to use to validate <paramref name="index"/>.</param>
     /// <param name="name">The name of the input parameter being tested.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="index"/> is valid to access <paramref name="text"/>.</exception>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static void IsNotInRangeFor(int index, string text, [CallerArgumentExpression("index")] string name = "")
     {
         if ((uint)index >= (uint)text.Length)

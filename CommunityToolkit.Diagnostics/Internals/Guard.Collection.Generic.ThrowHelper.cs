@@ -13,6 +13,7 @@ partial class Guard
     /// <inheritdoc/>
     partial class ThrowHelper
     {
+#if !NET35
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="IsNotEmpty{T}(Span{T},string)"/> fails.
         /// </summary>
@@ -34,6 +35,7 @@ partial class Guard
         {
             throw new ArgumentException($"Parameter {AssertString(name)} ({typeof(ReadOnlySpan<T>).ToTypeString()}) must not be empty.", name);
         }
+#endif
 
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="IsNotEmpty{T}(T[],string)"/> (or an overload) fails.
