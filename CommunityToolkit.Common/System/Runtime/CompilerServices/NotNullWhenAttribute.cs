@@ -11,7 +11,7 @@ namespace System.Diagnostics.CodeAnalysis;
 /// </summary>
 /// <remarks>Internal copy from the BCL attribute.</remarks>
 [AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
-internal sealed class NotNullWhenAttribute : Attribute
+public sealed class NotNullWhenAttribute : Attribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="NotNullWhenAttribute"/> class.
