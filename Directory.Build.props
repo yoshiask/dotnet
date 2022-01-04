@@ -3,6 +3,8 @@
   <PropertyGroup>
     <RepositoryDirectory>$(MSBuildThisFileDirectory)</RepositoryDirectory>
     <BuildToolsDirectory>$(RepositoryDirectory)build\</BuildToolsDirectory>
+
+    <SourceLinkEnabled Condition="'$(TargetFramework)' == 'net35'">false</SourceLinkEnabled>
   </PropertyGroup>
 
   <Import Project="$(BuildToolsDirectory)Community.Toolkit.Common.props" />
@@ -24,7 +26,7 @@
     </Otherwise>
   </Choose>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' != 'net35'">
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.4.244" PrivateAssets="All" />
   </ItemGroup>
 
