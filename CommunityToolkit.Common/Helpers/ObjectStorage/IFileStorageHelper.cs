@@ -31,7 +31,13 @@ public interface IFileStorageHelper
     /// </summary>
     /// <param name="folderPath">The path to the target folder.</param>
     /// <returns>A list of item types and names in the target folder.</returns>
-    Task<IEnumerable<(DirectoryItemType ItemType, string Name)>> ReadFolderAsync(string folderPath);
+    Task<IEnumerable<
+#if NET35
+        DirectoryItem
+#else
+        (DirectoryItemType ItemType, string Name)
+#endif
+        >> ReadFolderAsync(string folderPath);
 
     /// <summary>
     /// Saves an object inside a file.

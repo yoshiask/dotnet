@@ -39,7 +39,9 @@ public sealed class ObservableGroupedCollection<TKey, TValue> : ObservableCollec
     /// </summary>
     /// <param name="list">The resulting <see cref="List{T}"/>, if one was in use.</param>
     /// <returns>Whether or not a <see cref="List{T}"/> instance has been found.</returns>
+#if !NET35
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     internal bool TryGetList([NotNullWhen(true)] out List<ObservableGroup<TKey, TValue>>? list)
     {
         list = Items as List<ObservableGroup<TKey, TValue>>;

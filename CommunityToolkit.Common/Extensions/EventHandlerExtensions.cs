@@ -42,7 +42,7 @@ public static class EventHandlerExtensions
     {
         if (eventHandler == null)
         {
-            return Task.CompletedTask;
+            return TaskExtensions.CompletedTask;
         }
 
         Task[]? tasks = eventHandler.GetInvocationList()
@@ -56,11 +56,17 @@ public static class EventHandlerExtensions
 #pragma warning disable CS0618 // Type or member is obsolete
                     EventDeferral? deferral = eventArgs.GetCurrentDeferralAndReset();
 
-                return deferral?.WaitForCompletion(cancellationToken) ?? Task.CompletedTask;
+                return deferral?.WaitForCompletion(cancellationToken) ?? TaskExtensions.CompletedTask;
 #pragma warning restore CS0618 // Type or member is obsolete
                 })
             .ToArray();
 
-        return Task.WhenAll(tasks);
+        return
+#if !NET35
+            Task
+#else
+            TaskEx
+#endif
+            .WhenAll(tasks);
     }
 }

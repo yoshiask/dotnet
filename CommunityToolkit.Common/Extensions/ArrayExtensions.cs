@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
@@ -163,4 +164,37 @@ public static class ArrayExtensions
 
         return builder.ToString();
     }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ReadOnlyCollection{T}"/>
+    /// class that is a read-only wrapper around the specified list.
+    /// </summary>
+    /// <param name="array">The <see cref="IList{T}"/> to wrap.</param>
+    public static
+#if !NET35
+        ReadOnlyCollection<T>
+#else
+        Collections.ReadOnlyCollection<T>
+#endif
+        AsReadOnlyPolyfill<T>(this IList<T> array)
+    {
+        return new(array);
+    }
+
+#if NET35
+    /// <summary>
+    /// Forms a slice out of the current read-only span starting at a specified index for a specified length.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="start">The index at which to begin this slice.</param>
+    /// <param name="length">The desired length for the slice.</param>
+    /// <returns>A read-only span that consists of length elements from the current span starting at start.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">System.ArgumentOutOfRangeException</exception>
+    public static T[] Slice<T>(this ICollection<T> array, int start, int length)
+    {
+        T?[] slice = new T?[length];
+        array.CopyTo(slice, start);
+        return slice;
+    }
+#endif
 }

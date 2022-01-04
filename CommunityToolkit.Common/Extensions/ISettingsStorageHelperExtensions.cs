@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using CommunityToolkit.Helpers;
 
-namespace CommunityToolkit.Common.Extensions;
+namespace CommunityToolkit.Common;
 
 /// <summary>
 /// Helpers methods for working with <see cref="ISettingsStorageHelper{TKey}"/> implementations.
