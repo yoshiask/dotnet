@@ -42,7 +42,7 @@ public static class EventHandlerExtensions
     {
         if (eventHandler == null)
         {
-            return TaskExtensions.CompletedTask;
+            return System.Core.TaskEx.CompletedTask;
         }
 
         Task[]? tasks = eventHandler.GetInvocationList()
@@ -56,7 +56,7 @@ public static class EventHandlerExtensions
 #pragma warning disable CS0618 // Type or member is obsolete
                     EventDeferral? deferral = eventArgs.GetCurrentDeferralAndReset();
 
-                return deferral?.WaitForCompletion(cancellationToken) ?? TaskExtensions.CompletedTask;
+                return deferral?.WaitForCompletion(cancellationToken) ?? System.Core.TaskEx.CompletedTask;
 #pragma warning restore CS0618 // Type or member is obsolete
                 })
             .ToArray();

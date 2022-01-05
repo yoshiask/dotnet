@@ -14,19 +14,18 @@
     <PackageTags>Incremental;Loading;Collection;IncrementalLoadingCollection;String;Array;Extensions;Helpers</PackageTags>
   </PropertyGroup>
 
-  <!-- .NET Standard 2.1 and .NET 6 already have [NotNullIfNotNull] and [NotNullWhen].
-       Additionally, also enable trimming support on .NET 6. -->
+  <!-- Enable trimming support on .NET 6. -->
   <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0'">
-    <DefineConstants>NETSTANDARD2_1_OR_GREATER</DefineConstants>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     <IsTrimmable>true</IsTrimmable>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net35'">
-    <Reference Include="WindowsBase" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\LegacyDotNetPolyfills\System.Core\System.Core.csproj" />
 
-    <!-- .NET Framework 3.5 does not have async/await -->
-    <PackageReference Include="AsyncBridge" Version="0.3.1" />
+    <Compile Remove="System\**" />
+    <EmbeddedResource Remove="System\**" />
+    <None Remove="System\**" />
   </ItemGroup>
 
 </Project>

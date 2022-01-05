@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;net6.0;net35</TargetFrameworks>
   </PropertyGroup>
@@ -13,9 +13,12 @@
     <PackageTags>Diagnostics;Guard;ThrowHelper;TypeInfo;Extensions;Helpers</PackageTags>
   </PropertyGroup>
 
-  <Choose>
-    <When Condition="'$(TargetFramework)' == 'netstandard2.0'">
+  <ItemGroup>
+    <ProjectReference Include="..\..\LegacyDotNetPolyfills\System.Core\System.Core.csproj" />
+  </ItemGroup>
 
+  <Choose>
+    <When Condition="'$(TargetFramework)' == 'netstandard2.0'">      
       <!-- .NET Standard 2.0 doesn't have the Span<T> type -->
       <ItemGroup>
         <PackageReference Include="System.Memory" Version="4.5.4" />
@@ -23,10 +26,6 @@
     </When>
 
     <When Condition="'$(TargetFramework)' == 'netstandard2.1'">
-      <PropertyGroup>
-        <DefineConstants>NETSTANDARD2_1_OR_GREATER</DefineConstants>
-      </PropertyGroup>
-
       <!-- .NET Standard 2.1 doesn't have the Unsafe type -->
       <ItemGroup>
         <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
@@ -36,22 +35,9 @@
     <!-- Enable trimming support on .NET 6 -->
     <When Condition="'$(TargetFramework)' == 'net6.0'">
       <PropertyGroup>
-        <DefineConstants>NETSTANDARD2_1_OR_GREATER</DefineConstants>
         <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
         <IsTrimmable>true</IsTrimmable>
       </PropertyGroup>
-    </When>
-
-    <When Condition="'$(TargetFramework)' == 'net35'">        
-      <ItemGroup>
-        <Reference Include="WindowsBase" />
-
-        <!-- .NET Framework 3.5 does not have async/await -->
-        <PackageReference Include="AsyncBridge" Version="0.3.1" />
-
-        <!-- does not have Tuple or ValueTuple -->
-        <ProjectReference Include="..\CommunityToolkit.Common\CommunityToolkit.Common.csproj" />
-      </ItemGroup>
     </When>
   </Choose>
 

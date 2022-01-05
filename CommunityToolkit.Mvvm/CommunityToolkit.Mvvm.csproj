@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net6.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net6.0;net35</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -19,6 +19,16 @@
     </Description>
     <PackageTags>MVVM;Toolkit;MVVMToolkit;INotifyPropertyChanged;Observable;IOC;DI;Dependency Injection;Object Messaging;Extensions;Helpers</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net35'">
+    <Reference Include="WindowsBase" />
+    
+    <!-- Use polyfills from CommunityToolkit.Common -->
+    <ProjectReference Include="..\CommunityToolkit.Common\CommunityToolkit.Common.csproj" />
+
+    <!-- .NET Framework 3.5 does not have async/await -->
+    <PackageReference Include="AsyncBridge" Version="0.3.1" />
+  </ItemGroup>
 
   <!-- .NET Standard 2.0 doesn't have the Span<T> and IAsyncEnumerable<T> types -->
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
@@ -54,10 +64,7 @@
     <None Include="CommunityToolkit.Mvvm.targets" PackagePath="build\netstandard2.1" Pack="true" />
 
     <!-- Pack the source generator to the right package folder -->
-    <None Include="..\CommunityToolkit.Mvvm.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.Mvvm.SourceGenerators.dll"
-          PackagePath="analyzers\dotnet\roslyn4.0\cs"
-          Pack="true"
-          Visible="false" />
+    <None Include="..\CommunityToolkit.Mvvm.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.Mvvm.SourceGenerators.dll" PackagePath="analyzers\dotnet\roslyn4.0\cs" Pack="true" Visible="false" />
   </ItemGroup>
 
 </Project>

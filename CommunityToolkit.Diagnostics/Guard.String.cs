@@ -6,10 +6,6 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-#if NET35
-using CommunityToolkit.Common;
-#endif
-
 #pragma warning disable CS8777
 
 namespace CommunityToolkit.Diagnostics;
@@ -67,11 +63,7 @@ partial class Guard
 #endif
     public static void IsNullOrWhiteSpace(string? text, [CallerArgumentExpression("text")] string name = "")
     {
-#if !NET35
-        if (string.IsNullOrWhiteSpace(text))
-#else
         if (text!.IsNullOrWhiteSpace())
-#endif
         {
             return;
         }
@@ -91,11 +83,7 @@ partial class Guard
     [Obsolete("Use " + nameof(IsNullOrWhiteSpace))]
     public static void IsNullOrWhitespace(string? text, [CallerArgumentExpression("text")] string name = "")
     {
-#if !NET35
-        if (string.IsNullOrWhiteSpace(text))
-#else
         if (text!.IsNullOrWhiteSpace())
-#endif
         {
             return;
         }
@@ -115,11 +103,7 @@ partial class Guard
 #endif
     public static void IsNotNullOrWhiteSpace([NotNull] string? text, [CallerArgumentExpression("text")] string name = "")
     {
-#if !NET35
-        if (string.IsNullOrWhiteSpace(text))
-#else
         if (text!.IsNullOrWhiteSpace())
-#endif
         {
             return;
         }
@@ -139,11 +123,7 @@ partial class Guard
     [Obsolete("Use " + nameof(IsNotNullOrWhiteSpace))]
     public static void IsNotNullOrWhitespace([NotNull] string? text, [CallerArgumentExpression("text")] string name = "")
     {
-#if !NET35
-        if (string.IsNullOrWhiteSpace(text))
-#else
         if (text!.IsNullOrWhiteSpace())
-#endif
         {
             return;
         }
@@ -200,11 +180,7 @@ partial class Guard
 #endif
     public static void IsWhiteSpace(string text, [CallerArgumentExpression("text")] string name = "")
     {
-#if !NET35
-        if (string.IsNullOrWhiteSpace(text))
-#else
         if (text!.IsNullOrWhiteSpace())
-#endif
         {
             return;
         }
@@ -224,11 +200,7 @@ partial class Guard
     [Obsolete("Use " + nameof(IsWhiteSpace))]
     public static void IsWhitespace(string text, [CallerArgumentExpression("text")] string name = "")
     {
-#if !NET35
-        if (string.IsNullOrWhiteSpace(text))
-#else
         if (text!.IsNullOrWhiteSpace())
-#endif
         {
             return;
         }
@@ -247,11 +219,7 @@ partial class Guard
 #endif
     public static void IsNotWhiteSpace(string text, [CallerArgumentExpression("text")] string name = "")
     {
-#if !NET35
-        if (string.IsNullOrWhiteSpace(text))
-#else
         if (text!.IsNullOrWhiteSpace())
-#endif
         {
             return;
         }
@@ -271,11 +239,7 @@ partial class Guard
     [Obsolete("Use " + nameof(IsNotWhiteSpace))]
     public static void IsNotWhitespace(string text, [CallerArgumentExpression("text")] string name = "")
     {
-#if !NET35
-        if (string.IsNullOrWhiteSpace(text))
-#else
         if (text!.IsNullOrWhiteSpace())
-#endif
         {
             return;
         }

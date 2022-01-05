@@ -6,9 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-#if NET35
-using CommunityToolkit.Common;
-
+#if !NETSTANDARD1_0_OR_GREATER
 using TypeMap = System.Collections.Generic.Dictionary<System.Type, string>;
 using TypeArgs = System.Collections.Generic.IList<System.Type>;
 using DisplayNameTable = System.Collections.Generic.Dictionary<System.Type, string>;
@@ -106,13 +104,7 @@ public static class TypeExtensions
                     genericTypeDefinition == typeof(ValueTuple<,,,,,,>) ||
                     genericTypeDefinition == typeof(ValueTuple<,,,,,,,>))
                 {
-                    IEnumerable<string>? formattedTypes = type.GetGenericArguments().Select(t => FormatDisplayString(t, 0, t.GetGenericArguments()));
-                    string formattedTypesString =
-#if !NET35
-                        string.Join(", ", formattedTypes);
-#else
-                        ", ".Join(formattedTypes);
-#endif
+                    string formattedTypesString = ", ".Join(type.GetGenericArguments().Select(t => FormatDisplayString(t, 0, t.GetGenericArguments())));
 
                     return $"({formattedTypesString})";
                 }
@@ -127,20 +119,15 @@ public static class TypeExtensions
                 string[]? tokens = type.Name.Split('`');
                 int genericArgumentsCount = int.Parse(tokens[1]);
                 int typeArgumentsCount =
-#if !NET35
+#if NETSTANDARD1_0_OR_GREATER
                     typeArguments.Length;
 #else
                     typeArguments.Count;
 #endif
                 int typeArgumentsOffset = typeArgumentsCount - genericTypeOffset - genericArgumentsCount;
                 Type[]? currentTypeArguments = typeArguments.Slice(typeArgumentsOffset, genericArgumentsCount).ToArray();
-                IEnumerable<string>? formattedTypes = currentTypeArguments.Select(t => FormatDisplayString(t, 0, t.GetGenericArguments()));
-                string formattedTypesString =
-#if !NET35
-                        string.Join(", ", formattedTypes);
-#else
-                        ", ".Join(formattedTypes);
-#endif
+                string formattedTypesString = ", ".Join(currentTypeArguments.Select(t => FormatDisplayString(t, 0, t.GetGenericArguments())));
+
                 // Standard generic types are displayed as Foo<T>
                 displayName = $"{tokens[0]}<{formattedTypesString}>";
 

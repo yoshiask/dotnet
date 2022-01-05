@@ -30,6 +30,10 @@
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.4.244" PrivateAssets="All" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' == 'net35'">
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  
   <Choose>
     <When Condition="'$(SourceLinkEnabled)' != 'false'">
       <PropertyGroup>
